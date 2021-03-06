@@ -1,20 +1,20 @@
 import React, {Component} from 'react';
-import {Card, ListGroup, Form, Modal, Spinner} from 'react-bootstrap';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { withRouter } from 'react-router-dom';
 import Question from '../data/sampleQuestion.json';
-import fetch from 'node-fetch';
-import axios from "axios";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
+import { Dialog } from "@material-ui/core";
+import { Snackbar } from "@material-ui/core";
+import Draggable from 'react-draggable';
 import Checkbox from '@material-ui/core/Checkbox';
+import CustomSnackbarContent from "./CustomSnackBar/CustomSnackbarContent";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,8 +25,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
-
 class Questionnaire extends Component {
 
     constructor(props) {
@@ -34,21 +32,40 @@ class Questionnaire extends Component {
 
         this.state = {
             questions : Question,
+            answers: new Array(Question.length),
+            openSnackbar: false,
+            correct: 0,
+            // color: new Array.repeat("primary", Question.length)
+            openSnackbar2: false,
         }
+    }
+
+    PaperComponent(props) {
+        return (
+          <Draggable cancel={'[class*="MuiDialogContent-root"]'}>
+              <Paper {...props} />
+          </Draggable>
+        );
     }
 
     saveAnswer = () => {
         console.log(this.props);
-        this.props.history.push({
-            pathname: `/exam/${this.props.match.params.examId}`,
-        })
+        if (this.state.correct == Question.length) {
+            this.props.history.push({
+                pathname: `/exam/${this.props.exam}`,
+            })
+        }
+        else {
+            this.setState({openSnackbar2 : true})
+        }
+
     }
 
-    renderAnswer(ans) {
+    renderAnswer(ans, i , handleSelect) {
         return (
           <div>
               <FormControlLabel
-                control={<Checkbox color="primary" name={ans} />}
+                control={<Checkbox color="secondary" name={ans} onChange={() => handleSelect(ans, i)} checked={ans == this.state.answers[i]}/>}
                 label= {ans}
               />
           </div>
@@ -56,46 +73,116 @@ class Questionnaire extends Component {
     }
 
 
-    renderQuestion(question) {
+    renderQuestion(question, i) {
         const items = [];
+        const handleSelect = (ans, i) => {
+            console.log(ans)
+            const answers = this.state.answers;
+            if(answers[i] == question.correct ){
+                this.setState({correct: this.state.correct-1});
+            }
+            answers[i] = ans;
+            this.setState(answers);
+            if (question.correct !== ans) {
+                const answers = this.state.answers;
+                answers[i] = ans;
+                this.setState(answers);
+                this.setState({openSnackbar: true});
+            }
+            else
+                this.setState({correct: this.state.correct+1});
+        }
 
-        question.answer.forEach(ans => {
-            items.push(this.renderAnswer(ans))
+        question.answer.forEach((ans) => {
+            items.push(this.renderAnswer(ans, i, handleSelect))
         })
+
         return(
           <div>
               <Grid container spacing={2} >
                   <Grid item className='questionaire_grid'>
                       <Paper>
-                          <FormControl required component="fieldset" className=''>
-                              <FormLabel component="legend">{question.question}</FormLabel>
+                          <FormControl required component="fieldset">
+                              <FormLabel component="legend">
+                                  {question.question}
+                              </FormLabel>
                               <FormGroup>
                                   {items}
                               </FormGroup>
                           </FormControl>
                       </Paper>
-
                   </Grid>
-
               </Grid>
               <br/>
           </div>
         )
     }
 
+    handleCloseSnackbar = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+
+      this.setState({openSnackbar: false});
+      this.setState({openSnackbar2: false});
+    };
+
     render() {
         const items = [];
-        console.log(Question);
-        this.state.questions.forEach(question => {
-            items.push(this.renderQuestion(question))
+        this.state.questions.map((question, i) => {
+            items.push(this.renderQuestion(question, i))
         })
         return (
             <div>
-                <Paper className="questionaire">
-                    {items}
-                    <Button variant="contained" color="primary" onClick={this.saveAnswer.bind(this)}> Save Answer </Button>
-                </Paper>
+                <Dialog
+                  open={this.props.open}
+                  PaperComponent={this.PaperComponent}
+                  aria-labelledby={'Assign groups'}
+                  fullWidth={true}
+                >
+                    <Paper className="questionaire">
+                        <Typography variant="h4">
+                          Ethic Test
+                        </Typography>
+                        <br/>
+                        <br/>
+                        {items}
+                        <Button variant="contained" color="primary" onClick={this.saveAnswer.bind(this)}> Save Answer </Button>
+                    </Paper>
+                </Dialog>
 
+                <Snackbar
+                  anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'center',
+                  }}
+                  open={this.state.openSnackbar}
+                  autoHideDuration={10000}
+                  onClose={this.handleCloseSnackbar}
+                  // onExited={this.handleExitedSnackbar}
+                >
+                    <CustomSnackbarContent
+                      onClose={this.handleCloseSnackbar}
+                      variant="warning"
+                      message="The answer is incorrect, please check academic code."
+                    />
+                </Snackbar>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                    }}
+                    open={this.state.openSnackbar2}
+                    autoHideDuration={10000}
+                    onClose={this.handleCloseSnackbar}
+                    // onExited={this.handleExitedSnackbar}
+                >
+                    <CustomSnackbarContent
+                        onClose={this.handleCloseSnackbar}
+                        variant="error"
+                        message="You can't start exam without finish all the questions."
+                    />
+                </Snackbar>
             </div>
         );
     }

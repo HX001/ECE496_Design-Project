@@ -4,14 +4,18 @@
     "answer": [
       "Yes",
       "No"
-    ]
+    ],
+    "select": "",
+    "correct": "Yes"
   },
   {
     "question": "If John gets a message from his family about the family trip next week during an exam, is he violating the code of academic ethics if he replies? ",
     "answer": [
       "Yes, communicating with others is not allowed",
       "No, the message content is not related to the exam"
-    ]
+    ],
+    "select": "",
+    "correct": "Yes, communicating with others is not allowed"
   },
   {
     "question": "Bob’s best friend Amy has invited him to write the [ECE421] midterm together. The exam requires 1 hour and 30 minutes to complete, but students will have 36 hours to submit the exam. Amy explained to Bob that many of her friends are doing group exams now and it generally leads to a higher grade. She also suggests that it will take less time for them to do the exam together so that they will have extra time to study for another midterm. Should Bob accept Amy’s invitation? ",
@@ -20,7 +24,9 @@
       "No, Bob should reject Amy’s invitation",
       "Yes, Bob should tell Amy he needs to think about it",
       "Yes, Bob should ask Amy if he can bring more friends for the group exam"
-    ]
+    ],
+    "select": "",
+    "correct": "No, Bob should reject Amy’s invitation"
   },
   {
     "question": "The ECE361 midterm exam is difficult and it is designed so that students can not find answers online. The exam period is three hours. In the last 20 minutes before the exam ends, Amy messages Bob and asks if he can send her a screenshot of the answer he wrote for the last question, that is worth 10 percent of the entire exam. She promised him that she won't copy his answer; she just wants to learn how he solves the problem. Should Bob help Amy out?",
@@ -29,34 +35,44 @@
       "No, the message content is not related to the exam",
       "Yes, the exam is very important and Amy is Bob’s best friend, so he should help Amy",
       "Yes, Amy will write her own answer so it is not cheating"
-    ]
+    ],
+    "select": "",
+    "correct": "No, Bob should not help Amy"
   },
   {
     "question": "Bob’s friends have invited him to join an exam group chat for a certain course on FaceBook. The instructor provides a take-home exam and asks students to finish by themself. Bob finds out that the exam is hard, so he plans to ask for help from others by searching the answers from the Chegg and posting the question to the group chat on Facebook. Do the above behaviors violate the Honour Agreement? Should Bob do that?",
     "answer": [
       "Yes",
       "No"
-    ]
+    ],
+    "select": "",
+    "correct": "No"
   },
   {
     "question": "Bob and his roommate Steve study the same course in this fall semester.  The instructor provides the take-home exam, which limits the student to only use the course materials(lectures slides and notes) during the exam. Steve finished the exam very quickly and Bob plans to ask Steve if he can write the exam for him. Should Steve accept that? Does Bob’s behaviors violate the Honour code?",
     "answer": [
       "Yes",
       "No"
-    ]
+    ],
+    "select": "",
+    "correct": "Yes"
   },
   {
     "question": "Bob has started to write an ECE320 midterm test. The instructor gives the students 80 minutes to finish the exam. Because the problem is hard and time is really limited, he gets stressed. Therefore, he would like to release himself by listening to music. He thinks the music is not related to course material but can help him calm down so it is not an academic offence behaviour.",
     "answer": [
       "Yes",
       "No"
-    ]
+    ],
+    "select": "",
+    "correct": "Yes"
   },
   {
     "question": "Bob attends an exam which needs the student to complete short answer questions online. The instructor allows the student to check the notebook and submit the exam in 80 minutes. Since he is not good at writing, he organizes the answer and uses the grammar checking software to check whether he has some grammar problem. Then he copies the answer and pastes it to the answer field. Is that available during the exam?",
     "answer": [
       "Yes",
       "No"
-    ]
+    ],
+    "select": "",
+    "correct": "Yes"
   }
 ]

@@ -25,9 +25,9 @@ class Main extends Component {
                     <ExamPage />
                 </Route>
 
-                <Route exact path="/exam/:examId/questionnaire">
-                    <Questionnaire />
-                </Route>
+                {/*<Route exact path="/exam/:examId/questionnaire">*/}
+                {/*    <Questionnaire />*/}
+                {/*</Route>*/}
 
                 <Route exact path="/exam/:examId/report">
                     <ReportPage />
