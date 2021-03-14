@@ -10,7 +10,7 @@ import Questionnaire from "./Questionnaire";
 const ExamList = () => {
   const [items, setItems] = React.useState([]);
   const [open, setOpen] = React.useState(false);
-  const [course, setCourse] = React.useState("");
+  const [course, setCourse] = React.useState({});
 
   React.useEffect(() => {
     const loadExam = () => {
@@ -45,7 +45,7 @@ const ExamList = () => {
                 {exam.title}
               </Typography>
               <Button className='exam_button' variant="contained" color="primary"
-                      onClick={() => openQuestionnaire(exam.course)}>
+                      onClick={() => openQuestionnaire(exam)}>
                 Start Exam
               </Button>
             </Paper>

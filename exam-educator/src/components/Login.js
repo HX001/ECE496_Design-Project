@@ -42,32 +42,33 @@ class Login extends Component {
 
     //Handle Submit. TODO(Http request.)
     handleSubmitLogin = (event, { setSubmitting }) => {
-        const url = `${URL}/users/login`;
-        Axios({
-            method: 'POST',
-            url: url,
-            data: {
-                email: event.email,
-                password: event.password            }
-        })
-            .then(
-                response => {
-                    if (response.data.operationResponse.failed === false) {
-                        localStorage.setItem(TOKEN_KEY, response.data.token);
-                        localStorage.setItem(ID, response.data.id);
-                        this.props.loggedIn();
-                        this.props.showLoginForm(false);
-                    } else {
-                        console.log("Login failed");
-                    }
-                    setSubmitting(false);
-                }
-            )
-            .catch(
-                err => {
-                    console.log("Login failed");
-                }
-            )
+
+        // const url = `${URL}/users/login`;
+        // Axios({
+        //     method: 'POST',
+        //     url: url,
+        //     data: {
+        //         email: event.email,
+        //         password: event.password            }
+        // })
+        //     .then(
+        //         response => {
+        //             if (response.data.operationResponse.failed === false) {
+        //                 localStorage.setItem(TOKEN_KEY, response.data.token);
+        //                 localStorage.setItem(ID, response.data.id);
+        //                 this.props.loggedIn();
+        //                 this.props.showLoginForm(false);
+        //             } else {
+        //                 console.log("Login failed");
+        //             }
+        //             setSubmitting(false);
+        //         }
+        //     )
+        //     .catch(
+        //         err => {
+        //             console.log("Login failed");
+        //         }
+        //     )
     }
     handleSubmitRegister = (event) => {
         const url = `${URL}/users/register`

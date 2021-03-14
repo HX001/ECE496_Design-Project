@@ -69,7 +69,7 @@ const ReportPage = () => {
                     options={{ actionsColumnIndex: -1, search: false, showTitle: false }}
 
                     // options={optionsTable}
-                    data={sampleReport}
+                    data={location.state.detail.report? location.state.detail.report: []}
                 />
             </Paper>
         </div>

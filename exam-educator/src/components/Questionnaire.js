@@ -15,6 +15,7 @@ import Draggable from 'react-draggable';
 import Checkbox from '@material-ui/core/Checkbox';
 import CustomSnackbarContent from "./CustomSnackBar/CustomSnackbarContent";
 import Typography from "@material-ui/core/Typography";
+import controller from "../controller/controller";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,14 +51,27 @@ class Questionnaire extends Component {
 
     saveAnswer = () => {
         console.log(this.props);
-        if (this.state.correct == Question.length) {
+       // if (this.state.correct == Question.length) {
+
+            let examInfo = {
+                course_code : this.props.exam.course,
+                course_type : this.props.exam.type,
+                user_id : "carr",
+                start_time: "111",
+            }
+            controller.createExam(examInfo)
+                .then(response => {
+
+                })
+
             this.props.history.push({
-                pathname: `/exam/${this.props.exam}`,
+                pathname: `/exam/${this.props.exam.course}`,
+                state: { detail: {info: examInfo} },
             })
-        }
-        else {
-            this.setState({openSnackbar2 : true})
-        }
+        // }
+        // else {
+        //     this.setState({openSnackbar2 : true})
+        // }
 
     }
 
@@ -157,7 +171,7 @@ class Questionnaire extends Component {
                       horizontal: 'center',
                   }}
                   open={this.state.openSnackbar}
-                  autoHideDuration={10000}
+                  autoHideDuration={5000}
                   onClose={this.handleCloseSnackbar}
                   // onExited={this.handleExitedSnackbar}
                 >
@@ -173,7 +187,7 @@ class Questionnaire extends Component {
                         horizontal: 'center',
                     }}
                     open={this.state.openSnackbar2}
-                    autoHideDuration={10000}
+                    autoHideDuration={5000}
                     onClose={this.handleCloseSnackbar}
                     // onExited={this.handleExitedSnackbar}
                 >

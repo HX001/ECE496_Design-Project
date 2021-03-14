@@ -1,21 +1,25 @@
 [
   {
-    "course": "ECE496",
+    "course": "ECE302",
+    "type": "Math",
     "time": "6-8 pm Jan 1st, 2020",
     "title": "Midterm"
   },
   {
-    "course": "ECE497",
+    "course": "ECE345",
+    "type": "Computers",
     "time": "6-8 pm Jan 2nd, 2020",
     "title": "Midterm"
   },
   {
-    "course": "ECE498",
+    "course": "ECE320",
+    "type": "Science",
     "time": "6-8 pm Jan 3rd, 2020",
     "title": "Final"
   },
   {
-    "course": "ECE499",
+    "course": "ECE344",
+    "type": "Computers",
     "time": "6-8 pm Jan 4th, 2020",
     "title": "Final"
   }

@@ -1,13 +1,16 @@
 import React, {Component, useState, useEffect} from 'react';
 import Question from '../data/examQuestion.json';
+import { useLocation } from 'react-router-dom';
 import {Button, Form} from "react-bootstrap";
 import Typography from "@material-ui/core/Typography";
 import {withRouter} from "react-router-dom";
 import {Snackbar} from "@material-ui/core";
 import CustomSnackbarContent from "./CustomSnackBar/CustomSnackbarContent";
+import controller from "../controller/controller";
 let speedRecord = [];
 let time = 0;
 let wordRecord = 0;
+
 
 
 class ExamPage extends Component {
@@ -50,17 +53,17 @@ class ExamPage extends Component {
 
     this.setState({answer : answer, old_answer: old_answer});
 
-    console.log("123");
+    // console.log("123");
 
     this.interval = setInterval(() => {
 
       const speed = this.state.answer[this.state.questionNumber-1].length - this.state.old_answer[this.state.questionNumber-1].length;
-      console.log(this.state.answer[this.state.questionNumber-1].length);
-      console.log(this.state.old_answer[this.state.questionNumber-1].length);
+      // console.log(this.state.answer[this.state.questionNumber-1].length);
+      // console.log(this.state.old_answer[this.state.questionNumber-1].length);
       const old_answer = this.state.old_answer;
       old_answer[this.state.questionNumber-1] = answer[this.state.questionNumber-1];
       this.setState({old_answer: old_answer})
-      console.log("Typing Speed: " + speed + "characters/per second");
+      // console.log("Typing Speed: " + speed + "characters/per second");
       if(speed != 0) {
           speedRecord.push({x: time, y:speed});
           time++;
@@ -81,10 +84,21 @@ class ExamPage extends Component {
 
   FinishExam = () => {
     console.log(speedRecord);
-    this.props.history.push({
-      pathname: `/exam/${this.props.match.params.examId}/report`,
-      state: { detail: {record: speedRecord, paste: this.state.pasteTimes} },
-    })
+    const { match, location, history } = this.props
+
+    controller.getReport(location.state.detail.info)
+        .then(response => {
+          console.log(response);
+          controller.endExam(location.state.detail.info)
+              .then(response => {
+
+              })
+          this.props.history.push({
+            pathname: `/exam/${this.props.match.params.examId}/report`,
+            state: { detail: {record: speedRecord, paste: this.state.pasteTimes, report: response.data} },
+          })
+        })
+
   }
 
   handleCloseSnackbar = (event, reason) => {
@@ -137,16 +151,6 @@ class ExamPage extends Component {
             </Form.Control>
           </Form.Group>
 
-          {/*<Form.Group controlId="questionForm2">*/}
-          {/*  <Form.Label>Select following Answer</Form.Label>*/}
-          {/*  <Form.Control as="select" multiple>*/}
-          {/*    <option>Answer 1</option>*/}
-          {/*    <option>Answer 2</option>*/}
-          {/*    <option>Answer 3</option>*/}
-          {/*    <option>Answer 4</option>*/}
-          {/*    <option>Answer 5</option>*/}
-          {/*  </Form.Control>*/}
-          {/*</Form.Group>*/}
           <Form.Group controlId="answerForm">
             <Form.Label>Question content:</Form.Label>
             <Form.Control
@@ -180,7 +184,7 @@ class ExamPage extends Component {
               horizontal: 'center',
             }}
             open={this.state.openSnackbar}
-            autoHideDuration={10000}
+            autoHideDuration={5000}
             onClose={this.handleCloseSnackbar}
             // onExited={this.handleExitedSnackbar}
         >
